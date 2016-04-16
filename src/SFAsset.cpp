@@ -18,6 +18,9 @@ SFAsset::SFAsset(SFASSETTYPE type, std::shared_ptr<SFWindow> window): type(type)
   case SFASSET_COIN:
     sprite = IMG_LoadTexture(sf_window->getRenderer(), "assets/coin.png");
     break;
+  case SFASSET_WALL:
+    sprite = IMG_LoadTexture(sf_window->getRenderer(), "assets/alien.png");
+    break;
   }
 
   if(!sprite) {
@@ -113,15 +116,22 @@ void SFAsset::GoEast() {
 }
 
 void SFAsset::GoNorth() {
+  int w, h;
+  SDL_GetRendererOutputSize(sf_window->getRenderer(), &w, &h);
+
   Vector2 c = *(bbox->centre) + Vector2(0.0f, 5.0f);
-  bbox->centre.reset();
-  bbox->centre = make_shared<Vector2>(c);
+  if(!(c.getY() > h)) {
+    bbox->centre.reset();
+    bbox->centre = make_shared<Vector2>(c);
+  }
 }
 
 void SFAsset::GoSouth() {
   Vector2 c = *(bbox->centre) + Vector2(0.0f, -5.0f);
-  bbox->centre.reset();
-  bbox->centre = make_shared<Vector2>(c);
+  if(!(c.getY() < 0)) {
+    bbox->centre.reset();
+    bbox->centre = make_shared<Vector2>(c);
+  }
 }
 
 bool SFAsset::CollidesWith(shared_ptr<SFAsset> other) {
