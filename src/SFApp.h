@@ -25,10 +25,12 @@ public:
   int     OnExecute();
   void    OnUpdateWorld();
   void    OnRender();
-
+  void    initLevel(int);
+  void    destroyLevel();
   void    FireProjectile();
 private:
   bool                    is_running;
+  bool			  levelComplete;
 
   shared_ptr<SFWindow>       sf_window;
 
@@ -41,5 +43,6 @@ private:
   list<shared_ptr<SFAsset> > coins;
 
   int fire;
+  int number_of_aliens;
 };
 #endif

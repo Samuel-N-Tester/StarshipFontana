@@ -40,6 +40,8 @@ public:
   virtual void      SetNotAlive();
   virtual bool      IsAlive();
   virtual void      HandleCollision();
+  virtual void      addScore();
+  virtual int       getScore();
 
   virtual bool                      CollidesWith(shared_ptr<SFAsset>);
   virtual shared_ptr<SFBoundingBox> GetBoundingBox();
@@ -53,6 +55,7 @@ private:
   SFASSETTYPE                 type;
   SFAssetId                   id;
   std::shared_ptr<SFWindow>   sf_window;
+  int                         score;
 
   static int SFASSETID;
 };

@@ -2,7 +2,7 @@
 
 int SFAsset::SFASSETID=0;
 
-SFAsset::SFAsset(SFASSETTYPE type, std::shared_ptr<SFWindow> window): type(type), sf_window(window) {
+SFAsset::SFAsset(SFASSETTYPE type, std::shared_ptr<SFWindow> window): type(type), score(0), sf_window(window) {
   this->id   = ++SFASSETID;
 
   switch (type) {
@@ -151,7 +151,12 @@ void SFAsset::SetNotAlive() {
 bool SFAsset::IsAlive() {
   return (SFASSET_DEAD != type);
 }
-
+void SFAsset::addScore() {
+  score+=100;
+}
+int SFAsset::getScore() {
+  return score;
+}
 void SFAsset::HandleCollision() {
   if(SFASSET_PROJECTILE == type || SFASSET_ALIEN == type) {
     SetNotAlive();
