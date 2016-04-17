@@ -123,6 +123,8 @@ void SFAsset::GoNorth() {
   if(!(c.getY() > h)) {
     bbox->centre.reset();
     bbox->centre = make_shared<Vector2>(c);
+  }else if (type = SFASSET_PROJECTILE) {
+    SetNotAlive();
   }
 }
 
