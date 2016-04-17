@@ -98,10 +98,10 @@ void SFApp::OnEvent(SFEvent& event) {
 int SFApp::OnExecute() {
   // Execute the app
   SDL_Event event;
-  levelComplete == true;
+  levelComplete == false;
 
-  for (int currentLevel = 0; currentLevel < 1; currentLevel++) {
-    initLevel(currentLevel);
+  for (int currentLevel = 0; currentLevel < 2; currentLevel++) {
+    InitLevel(currentLevel);
     while (SDL_WaitEvent(&event) && is_running && levelComplete == false) {
       // wrap an SDL_Event with our SFEvent
       SFEvent sfevent((const SDL_Event) event);
@@ -109,18 +109,19 @@ int SFApp::OnExecute() {
       OnEvent(sfevent);
     }
 
-    if (number_of_aliens == 0) {
-     int score = player->getScore();
-      destroyLevel();
-      cout << "you win ------ score = " << score << endl;
+    if (levelComplete == true) {
+      levelComplete = false;
+      DestroyLevel();
     }
   }
+  int score = player->getScore();
+  cout << "you win ------ score = " << score << endl;
 }
 
-void SFApp::initLevel(int currentLevel) { // crestes all level assets
+void SFApp::InitLevel(int currentLevel) { // crestes all level assets
   switch(currentLevel) {
 
-  case 0:
+  case 0: {
     for(int i=0; i<number_of_aliens; i++) {
       // place an alien at width/number_of_aliens * i
       auto alien = make_shared<SFAsset>(SFASSET_ALIEN, sf_window);
@@ -140,16 +141,37 @@ void SFApp::initLevel(int currentLevel) { // crestes all level assets
     walls.push_back(wall);
     break;
   }
+
+  case 1: {
+    number_of_aliens =1;
+
+    auto alien = make_shared<SFAsset>(SFASSET_ALIEN, sf_window);
+    auto alienPos = Point2(200, 200);
+    alien->SetPosition(alienPos);
+    aliens.push_back(alien);
+    break;
+		}
+  }
 }
 
-void SFApp::destroyLevel(){
+void SFApp::DestroyLevel(){
   for(auto w : walls) {
     w->SetNotAlive();
   }
+  DestroyWalls();
+
   for(auto a : aliens) {
     a->SetNotAlive();
   }
+  DestroyAliens();
+
+
+  for (auto c : coins) {
+    c->SetNotAlive();
+  }
+  DestroyCoins();
 }
+
 void SFApp::OnUpdateWorld() {
 
   //test win conditions
@@ -182,7 +204,10 @@ void SFApp::OnUpdateWorld() {
       }
     }
   }
+  DestroyAliens();
+}
 
+void SFApp::DestroyAliens() {
   // remove dead aliens (the long way)
   list<shared_ptr<SFAsset>> tmp;
   for(auto a : aliens) {
@@ -194,6 +219,30 @@ void SFApp::OnUpdateWorld() {
   aliens = list<shared_ptr<SFAsset>>(tmp);
 }
 
+void SFApp::DestroyCoins() {
+  // remove dead aliens (the long way)
+  list<shared_ptr<SFAsset>> tmp;
+  for(auto c: coins) {
+    if(c->IsAlive()) {
+      tmp.push_back(c);
+    }
+  }
+  coins.clear();
+  coins = list<shared_ptr<SFAsset>>(tmp);
+}
+
+void SFApp::DestroyWalls() {
+  // remove dead aliens (the long way)
+  list<shared_ptr<SFAsset>> tmp;
+  for(auto w : walls) {
+    if(w->IsAlive()) {
+      tmp.push_back(w);
+    }
+  }
+  walls.clear();
+  walls = list<shared_ptr<SFAsset>>(tmp);
+}
+ 
 void SFApp::OnRender() {
   SDL_RenderClear(sf_window->getRenderer());
 

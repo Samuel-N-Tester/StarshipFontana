@@ -25,9 +25,13 @@ public:
   int     OnExecute();
   void    OnUpdateWorld();
   void    OnRender();
-  void    initLevel(int);
-  void    destroyLevel();
+  void    InitLevel(int);
+  void    DestroyLevel();
   void    FireProjectile();
+  void    DestroyAliens();
+  void    DestroyCoins();
+  void    DestroyWalls();
+
 private:
   bool                    is_running;
   bool			  levelComplete;
