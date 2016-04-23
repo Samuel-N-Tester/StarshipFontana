@@ -47,6 +47,8 @@ private:
   list<shared_ptr<SFAsset> > coins;
 
   int fire;
-  int number_of_aliens;
+  int coinCount;
+  int currentLevel;
+  int totalLevels;
 };
 #endif

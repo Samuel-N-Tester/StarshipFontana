@@ -29,19 +29,20 @@ public:
   SFAsset(const SFAsset&);
   virtual ~SFAsset();
 
-  virtual void      SetPosition(Point2 &);
-  virtual Point2    GetPosition();
-  virtual SFAssetId GetId();
-  virtual void      OnRender();
-  virtual void      GoEast();
-  virtual void      GoWest();
-  virtual void      GoNorth();
-  virtual void	    GoSouth();
-  virtual void      SetNotAlive();
-  virtual bool      IsAlive();
-  virtual void      HandleCollision();
-  virtual void      addScore();
-  virtual int       getScore();
+  virtual void          SetPosition(Point2 &);
+  virtual Point2        GetPosition();
+  virtual SFAssetId     GetId();
+  virtual SFASSETTYPE   GetType();
+  virtual void          OnRender();    
+  virtual void          GoEast();
+  virtual void          GoWest();
+  virtual void          GoNorth();
+  virtual void	        GoSouth();
+  virtual void          SetNotAlive();
+  virtual bool          IsAlive();
+  virtual void          HandleCollision(shared_ptr<SFAsset>);
+  virtual void          addScore();
+  virtual int           getScore();
 
   virtual bool                      CollidesWith(shared_ptr<SFAsset>);
   virtual shared_ptr<SFBoundingBox> GetBoundingBox();

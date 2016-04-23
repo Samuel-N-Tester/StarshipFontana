@@ -101,6 +101,8 @@ void SFAsset::GoWest() {
   if(!(c.getX() < 0)) {
     bbox->centre.reset();
     bbox->centre = make_shared<Vector2>(c);
+  }else if (type != SFASSET_PLAYER) {
+    SetNotAlive();
   }
 }
 
@@ -112,6 +114,8 @@ void SFAsset::GoEast() {
   if(!(c.getX() > w)) {
     bbox->centre.reset();
     bbox->centre = make_shared<Vector2>(c);
+  }else if (type != SFASSET_PLAYER) {
+    SetNotAlive();
   }
 }
 
@@ -123,7 +127,7 @@ void SFAsset::GoNorth() {
   if(!(c.getY() > h)) {
     bbox->centre.reset();
     bbox->centre = make_shared<Vector2>(c);
-  }else if (type = SFASSET_PROJECTILE) {
+  }else if (type != SFASSET_PLAYER) {
     SetNotAlive();
   }
 }
@@ -133,6 +137,8 @@ void SFAsset::GoSouth() {
   if(!(c.getY() < 0)) {
     bbox->centre.reset();
     bbox->centre = make_shared<Vector2>(c);
+  }else if (type != SFASSET_PLAYER) {
+    SetNotAlive();
   }
 }
 
@@ -157,8 +163,13 @@ void SFAsset::addScore() {
 int SFAsset::getScore() {
   return score;
 }
-void SFAsset::HandleCollision() {
-  if(SFASSET_PROJECTILE == type || SFASSET_ALIEN == type) {
+SFASSETTYPE SFAsset::GetType() {
+  return type;
+}
+void SFAsset::HandleCollision(shared_ptr<SFAsset> other) {
+
+  if( SFASSET_PROJECTILE == type && SFASSET_ALIEN == other->GetType() ){  //projectiles hit aliens
     SetNotAlive();
+    other->SetNotAlive();
   }
 }
