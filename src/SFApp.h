@@ -26,11 +26,16 @@ public:
   void    OnUpdateWorld();
   void    OnRender();
   void    InitLevel(int);
+  void    MakeCoin(int, int);
+  void    MakeAlien(int, int);
+  void    MakeWall(int, int);
   void    DestroyLevel();
   void    FireProjectile();
   void    DestroyAliens();
   void    DestroyCoins();
   void    DestroyWalls();
+
+  void    MovePlayer();
 
 private:
   bool                    is_running;
@@ -45,6 +50,11 @@ private:
   list<shared_ptr<SFAsset> > aliens;
   list<shared_ptr<SFAsset> > walls;
   list<shared_ptr<SFAsset> > coins;
+
+  bool headingLeft;
+  bool headingRight;
+  bool headingUp;
+  bool headingDown;
 
   int fire;
   int coinCount;

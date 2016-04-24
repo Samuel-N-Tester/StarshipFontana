@@ -168,8 +168,10 @@ SFASSETTYPE SFAsset::GetType() {
 }
 void SFAsset::HandleCollision(shared_ptr<SFAsset> other) {
 
-  if( SFASSET_PROJECTILE == type && SFASSET_ALIEN == other->GetType() ){  //projectiles hit aliens
+  if( SFASSET_PROJECTILE == type && SFASSET_ALIEN == other->GetType() ){  //projectiles hit an aliens
     SetNotAlive();
     other->SetNotAlive();
+  }else if( SFASSET_PROJECTILE == type && SFASSET_WALL == other->GetType() ){  //projectiles hit a wall
+    SetNotAlive();
   }
 }
